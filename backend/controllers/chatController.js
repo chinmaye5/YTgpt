@@ -24,13 +24,29 @@ exports.processVideo = async (req, res) => {
         await fs.unlink(vttFile).catch(() => { });
         await fs.unlink(vttFileDoubleExt).catch(() => { });
 
-        // Download captions
+        // Download captions with additional options to bypass bot detection
         console.log('Downloading subtitles for:', videoUrl);
         await youtubedl(videoUrl, {
             skipDownload: true,
             writeAutoSub: true,
             subLang: 'en',
             output: path.join(__dirname, '..', videoId), // Base name without extension
+            // Add these options to bypass bot detection
+            cookiesFromBrowser: 'chrome', // or 'firefox', 'safari', 'edge'
+            // Alternative: use cookies file if you have one
+            // cookies: path.join(__dirname, '..', 'cookies.txt'),
+            // Add user agent to appear more like a real browser
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            // Add additional headers
+            addHeader: [
+                'Accept-Language:en-US,en;q=0.9',
+                'Accept-Encoding:gzip, deflate, br',
+                'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+            ],
+            // Retry on failure
+            retries: 3,
+            // Add delay between retries
+            sleep: 1
         });
 
         // Wait to ensure file is written
