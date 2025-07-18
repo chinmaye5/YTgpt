@@ -7,13 +7,16 @@ const chatRoutes = require('./routes/chatRoutes');
 
 const app = express();
 
-// Enhanced CORS configuration
 const corsOptions = {
-    origin: ['http://localhost:3000', 'http://127.0.0.1:5173', 'http://localhost:3001'],
+    origin: [
+        'http://localhost:3000',
+        'https://ytgpt-snowy.vercel.app'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 };
+
 
 app.use(cors(corsOptions));
 app.use(express.json());
