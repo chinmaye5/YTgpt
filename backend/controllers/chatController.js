@@ -31,8 +31,7 @@ exports.processVideo = async (req, res) => {
             writeAutoSub: true,
             subLang: 'en',
             output: path.join(__dirname, '..', videoId),
-            cookiesFromBrowser: 'chrome',
-            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)...', // OK
             addHeader: [
                 'Accept-Language:en-US,en;q=0.9',
                 'Accept-Encoding:gzip, deflate, br',
@@ -41,6 +40,7 @@ exports.processVideo = async (req, res) => {
             retries: 3,
             sleepInterval: 1
         });
+
 
         // Wait to ensure file is written
         await new Promise(resolve => setTimeout(resolve, 1000));
