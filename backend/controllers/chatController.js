@@ -24,23 +24,14 @@ exports.processVideo = async (req, res) => {
         await fs.unlink(vttFile).catch(() => { });
         await fs.unlink(vttFileDoubleExt).catch(() => { });
 
-        // Download captions with additional options to bypass bot detection
+        // Download captions
         console.log('Downloading subtitles for:', videoUrl);
         await youtubedl(videoUrl, {
             skipDownload: true,
             writeAutoSub: true,
             subLang: 'en',
-            output: path.join(__dirname, '..', videoId),
-            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)...', // OK
-            addHeader: [
-                'Accept-Language:en-US,en;q=0.9',
-                'Accept-Encoding:gzip, deflate, br',
-                'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
-            ],
-            retries: 3,
-            sleepInterval: 1
+            output: path.join(__dirname, '..', videoId), // Base name without extension
         });
-
 
         // Wait to ensure file is written
         await new Promise(resolve => setTimeout(resolve, 1000));
