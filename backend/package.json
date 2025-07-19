@@ -4,7 +4,7 @@
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon server.js",
-        "postinstall": "npx youtube-dl-exec -U"
+        "postinstall": "bash scripts/update-yt-dlp.sh"
     },
     "dependencies": {
         "axios": "^1.7.7",
