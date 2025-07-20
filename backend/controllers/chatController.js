@@ -1,11 +1,3 @@
-const youtubedl = require('youtube-dl-exec');
-const axios = require('axios');
-const { readFile } = require('fs/promises');
-const { cleanVTT, chunkTranscript, scoreChunks } = require('../utils/transcriptProcessor');
-const Chat = require('../models/Chat');
-const fs = require('fs').promises;
-const path = require('path');
-
 exports.processVideo = async (req, res) => {
     const { videoUrl } = req.body;
     const userId = req.user.userId;
@@ -24,17 +16,29 @@ exports.processVideo = async (req, res) => {
         await fs.unlink(vttFile).catch(() => { });
         await fs.unlink(vttFileDoubleExt).catch(() => { });
 
-        // Download captions
+        // Download captions with cookies authentication
         console.log('Downloading subtitles for:', videoUrl);
-        await youtubedl(videoUrl, {
-            skipDownload: true,
-            writeAutoSub: true,
-            subLang: 'en',
-            output: path.join(__dirname, '..', videoId), // Base name without extension
-        });
+        try {
+            await youtubedl(videoUrl, {
+                skipDownload: true,
+                writeAutoSub: true,
+                subLang: 'en',
+                output: path.join(__dirname, '..', videoId),
+                cookiesFromBrowser: 'chrome' // Add this line to use Chrome cookies
+            });
+        } catch (downloadError) {
+            console.error('Download error, trying without cookies:', downloadError);
+            // Fallback attempt without cookies
+            await youtubedl(videoUrl, {
+                skipDownload: true,
+                writeAutoSub: true,
+                subLang: 'en',
+                output: path.join(__dirname, '..', videoId)
+            });
+        }
 
         // Wait to ensure file is written
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         // Check for either file
         let targetFile;
@@ -66,45 +70,5 @@ exports.processVideo = async (req, res) => {
     } catch (err) {
         console.error('Error processing video:', err);
         res.status(500).json({ error: `Failed to process video: ${err.message}` });
-    }
-};
-
-exports.askQuestion = async (req, res) => {
-    const { query, chunks, videoUrl } = req.body;
-    const userId = req.user.userId;
-
-    try {
-        let context = '';
-        const allText = chunks.join('\n');
-        if (allText.length < 12000) {
-            context = allText;
-        } else {
-            context = scoreChunks(query, chunks).join('\n');
-        }
-
-        const prompt = `Use the following transcript to answer and also be open to search outside of the transcript to answer:\n\n${context}\n\nQ: ${query}\nA:`;
-        const response = await axios.post(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-            { contents: [{ parts: [{ text: prompt }] }] }
-        );
-
-        const answer = response.data.candidates?.[0]?.content?.parts?.[0]?.text || 'No answer found.';
-
-        // Save chat to MongoDB
-        const chat = new Chat({ userId, videoUrl, question: query, answer });
-        await chat.save();
-
-        res.json({ answer });
-    } catch (err) {
-        res.status(500).json({ error: `Gemini API error: ${err.message}` });
-    }
-};
-
-exports.getChatHistory = async (req, res) => {
-    try {
-        const chats = await Chat.find({ userId: req.user.userId }).sort({ createdAt: -1 });
-        res.json(chats);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
     }
 };
