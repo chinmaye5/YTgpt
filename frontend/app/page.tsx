@@ -75,7 +75,7 @@ export default function LandingPage() {
               <Youtube className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              VideoChat
+              YTgpt
             </span>
           </div>
 
@@ -180,7 +180,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              Why Choose VideoChat?
+              Why Choose YTgpt?
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Revolutionary AI technology that understands video content like never before
@@ -360,7 +360,7 @@ export default function LandingPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Find answers to common questions about VideoChat
+              Find answers to common questions about YTgpt
             </p>
           </div>
 
@@ -397,7 +397,7 @@ export default function LandingPage() {
               <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center">
                 <Youtube className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold">VideoChat</span>
+              <span className="text-xl font-bold">YTgpt</span>
             </div>
             <div className="flex space-x-6 text-gray-400">
               <a href="#" className="hover:text-white transition-colors">Privacy</a>

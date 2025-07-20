@@ -244,7 +244,7 @@ export default function Chat() {
                             <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                                 <Video className="w-8 h-8 text-white" />
                             </div>
-                            <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-2">VideoChat</h1>
+                            <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-2">YTgpt</h1>
                             <p className="text-gray-300">Ask questions about any YouTube video</p>
                         </div>
 
@@ -309,7 +309,7 @@ export default function Chat() {
                             <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
                                 <Video className="w-5 h-5 text-white" />
                             </div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">VideoChat</h1>
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">YTgpt</h1>
                         </div>
                         <button
                             onClick={handleLogout}
