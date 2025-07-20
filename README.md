@@ -31,10 +31,10 @@ A fullstack chatbot application that allows users to submit a YouTube video URL 
 
 ### 1. Clone the Repository
 
-git clone https://github.com/your-username/ytgpt.git
-cd ytgpt
+git clone https://github.com/chinmaye5/YTgpt.git
+cd YTgpt
 📁 Project Structure
-ytgpt/
+YTgpt/
 ├── client/        # Frontend (Next.js)
 └── server/        # Backend (Express.js)
 🚀 Frontend Setup (Next.js)
